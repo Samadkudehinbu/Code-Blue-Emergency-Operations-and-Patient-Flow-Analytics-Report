@@ -5,7 +5,7 @@ This project is a comprehensive healthcare analytics solution designed to monito
 This project transforms transactional emergency care data into an interactive business intelligence dashboard that helps healthcare leaders identify **where operational bottlenecks exist, how patient flow impacts outcomes, and where resource optimization can save lives.**
 
 🔗 **Live Report:**
-🔗 **[View Live Report](https://app.powerbi.com/view?r=eyJrIjoiMDU2NzAyNGEtZmMxMS00YWIxLTk4YTUtYzUzOTlhZjZhYTcwIiwidCI6IjQ2NTRiNmYxLTBlNDctNDU3OS1hOGExLTAyZmU5ZDk0M2M3YiIsImMiOjl9)** &nbsp;|&nbsp; 📃 **[Dataset](Datasets)** &nbsp;|&nbsp; 📖 **[Medium Article](https://medium.com/@kudehinbusamad/analysing-last-mile-delivery-performance-across-12-lagos-zones-a-sql-power-bi-case-study-2c3b8805b20e)** &nbsp;|&nbsp; 👤 **[LinkedIn](https://www.linkedin.com/in/abdulsamad-kudehinbu/)** &nbsp;|&nbsp; 🌐 **[Portfolio](https://sites.google.com/view/abdulsamadportfolio/home)**
+🔗 **[View Live Report](https://app.powerbi.com/view?r=eyJrIjoiMDU2NzAyNGEtZmMxMS00YWIxLTk4YTUtYzUzOTlhZjZhYTcwIiwidCI6IjQ2NTRiNmYxLTBlNDctNDU3OS1hOGExLTAyZmU5ZDk0M2M3YiIsImMiOjl9)** &nbsp;|&nbsp; 📖 **[Medium Article](https://medium.com/@kudehinbusamad/code-blue-turning-emergency-room-chaos-into-clear-actionable-intelligence-49ed51040818)** &nbsp;|&nbsp; 👤 **[LinkedIn](https://www.linkedin.com/in/abdulsamad-kudehinbu/)** &nbsp;|&nbsp; 🌐 **[Portfolio](https://sites.google.com/view/abdulsamadportfolio/home)**
 
 ---
 ---
