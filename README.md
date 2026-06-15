@@ -1,0 +1,2 @@
+# Code_Blue_Emergency_Operations_-_Patient_Flow_Analytics
+A comprehensive healthcare analytics solution designed to monitor and optimize emergency department operations and patient flow across hospital networks. The system tracks key metrics including patient visit volumes, admission types, wait times, triage efficiency, treatment timelines, ICU utilization, readmission rates, and clinical outcomes 
