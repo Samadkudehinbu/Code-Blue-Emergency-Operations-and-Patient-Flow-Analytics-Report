@@ -1,0 +1,469 @@
+DAX Measures Used
+
+===== TOTAL REVENUE =====
+
+Total Revenue = SUM(Fact_Financials[Revenue_Amount])
+
+Total Revenue vs Last Month = 
+VAR CurrentMonth = [Total Revenue]
+VAR LastMonth = 
+    CALCULATE(
+        [Total Revenue],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Total Revenue MoM Label = 
+VAR _variance = [Total Revenue vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "#,##0")
+    )
+
+Total Revenue Label Color = 
+IF([Total Revenue vs Last Month] = 0, "Black",
+    IF([Total Revenue vs Last Month] < 0, "Red", "Green"))
+
+===== TOTAL PATIENT VISITS =====
+
+Total Patient Visits = COUNTA(Fact_Patient_Visits[Visit_ID])
+
+Total Patient Visits vs Last Month = 
+VAR CurrentMonth = [Total Patient Visits]
+VAR LastMonth = 
+    CALCULATE(
+        [Total Patient Visits],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Total Patient Visits MoM Label = 
+VAR _variance = [Total Patient Visits vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "#,##0")
+    )
+
+Total Patient Visits Label Color = 
+IF([Total Patient Visits vs Last Month] = 0, "Black",
+    IF([Total Patient Visits vs Last Month] < 0, "Red", "Green"))
+
+===== TOTAL OPERATIONAL COST =====
+
+Total Operational Cost = SUM(Fact_Financials[Treatment_Cost])
+
+Total Operational Cost vs Last Month = 
+VAR CurrentMonth = [Total Operational Cost]
+VAR LastMonth = 
+    CALCULATE(
+        [Total Operational Cost],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Total Operational Cost MoM Label = 
+VAR _variance = [Total Operational Cost vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "#,##0")
+    )
+
+Total Operational Cost Label Color = 
+IF([Total Operational Cost vs Last Month] = 0, "Black",
+    IF([Total Operational Cost vs Last Month] < 0, "Green", "Red"))
+
+===== MORTALITY RATE =====
+
+Mortality Rate = DIVIDE(CALCULATE(COUNTROWS(Fact_Patient_Visits), Fact_Patient_Visits[Mortality_Flag] = TRUE()), COUNTA(Fact_Patient_Visits[Visit_ID]), 0) * 100
+
+Mortality Rate vs Last Month = 
+VAR CurrentMonth = [Mortality Rate]
+VAR LastMonth = 
+    CALCULATE(
+        [Mortality Rate],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Mortality Rate MoM Label = 
+VAR _variance = [Mortality Rate vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "0.00%")
+    )
+
+Mortality Rate Label Color = 
+IF([Mortality Rate vs Last Month] = 0, "Black",
+    IF([Mortality Rate vs Last Month] < 0, "Green", "Red"))
+
+===== ICU ADMISSION RATE =====
+
+ICU Admission Rate = DIVIDE(CALCULATE(COUNTROWS(Fact_Patient_Visits), Fact_Patient_Visits[ICU_Required_Flag] = TRUE()), COUNTA(Fact_Patient_Visits[Visit_ID]), 0) * 100
+
+ICU Admission Rate vs Last Month = 
+VAR CurrentMonth = [ICU Admission Rate]
+VAR LastMonth = 
+    CALCULATE(
+        [ICU Admission Rate],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+ICU Admission Rate MoM Label = 
+VAR _variance = [ICU Admission Rate vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "0.00%")
+    )
+
+ICU Admission Rate Label Color = 
+IF([ICU Admission Rate vs Last Month] = 0, "Black",
+    IF([ICU Admission Rate vs Last Month] < 0, "Green", "Red"))
+
+===== BED OCCUPANCY RATE =====
+
+Bed Occupancy Rate = DIVIDE(SUMPRODUCT(Fact_Patient_Visits[Length_of_Stay_Hours] / 24), 500, 0) * 100
+
+Bed Occupancy Rate vs Last Month = 
+VAR CurrentMonth = [Bed Occupancy Rate]
+VAR LastMonth = 
+    CALCULATE(
+        [Bed Occupancy Rate],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Bed Occupancy Rate MoM Label = 
+VAR _variance = [Bed Occupancy Rate vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "0.00%")
+    )
+
+Bed Occupancy Rate Label Color = 
+IF([Bed Occupancy Rate vs Last Month] = 0, "Black",
+    IF([Bed Occupancy Rate vs Last Month] < 0, "Red", "Green"))
+
+===== AVG WAIT TIME =====
+
+Avg Wait Time = AVERAGE(Fact_Patient_Visits[Wait_Time_Minutes])
+
+Avg Wait Time vs Last Month = 
+VAR CurrentMonth = [Avg Wait Time]
+VAR LastMonth = 
+    CALCULATE(
+        [Avg Wait Time],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Avg Wait Time MoM Label = 
+VAR _variance = [Avg Wait Time vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "#,##0")
+    )
+
+Avg Wait Time Label Color = 
+IF([Avg Wait Time vs Last Month] = 0, "Black",
+    IF([Avg Wait Time vs Last Month] < 0, "Green", "Red"))
+
+===== AVG TREATMENT DELAYS (MINS) =====
+
+Avg Treatment Delays = AVERAGE(Fact_Patient_Visits[Treatment_Delay_Minutes])
+
+Avg Treatment Delays vs Last Month = 
+VAR CurrentMonth = [Avg Treatment Delays]
+VAR LastMonth = 
+    CALCULATE(
+        [Avg Treatment Delays],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Avg Treatment Delays MoM Label = 
+VAR _variance = [Avg Treatment Delays vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "#,##0")
+    )
+
+Avg Treatment Delays Label Color = 
+IF([Avg Treatment Delays vs Last Month] = 0, "Black",
+    IF([Avg Treatment Delays vs Last Month] < 0, "Green", "Red"))
+
+===== AVG SEVERITY SCORE =====
+
+Avg Severity Score = AVERAGE(Fact_Patient_Visits[Severity_Level])
+
+Avg Severity Score vs Last Month = 
+VAR CurrentMonth = [Avg Severity Score]
+VAR LastMonth = 
+    CALCULATE(
+        [Avg Severity Score],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Avg Severity Score MoM Label = 
+VAR _variance = [Avg Severity Score vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "0.00")
+    )
+
+Avg Severity Score Label Color = 
+IF([Avg Severity Score vs Last Month] = 0, "Black",
+    IF([Avg Severity Score vs Last Month] < 0, "Green", "Red"))
+
+===== AVG PROFIT MARGIN =====
+
+Avg Profit Margin = DIVIDE(SUM(Fact_Financials[Revenue_Amount]) - SUM(Fact_Financials[Treatment_Cost]), SUM(Fact_Financials[Revenue_Amount]), 0) * 100
+
+Avg Profit Margin vs Last Month = 
+VAR CurrentMonth = [Avg Profit Margin]
+VAR LastMonth = 
+    CALCULATE(
+        [Avg Profit Margin],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Avg Profit Margin MoM Label = 
+VAR _variance = [Avg Profit Margin vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "0.00%")
+    )
+
+Avg Profit Margin Label Color = 
+IF([Avg Profit Margin vs Last Month] = 0, "Black",
+    IF([Avg Profit Margin vs Last Month] < 0, "Red", "Green"))
+
+===== AVG LENGTH OF STAY =====
+
+Avg Length of Stay = AVERAGE(Fact_Patient_Visits[Length_of_Stay_Hours]) / 24
+
+Avg Length of Stay vs Last Month = 
+VAR CurrentMonth = [Avg Length of Stay]
+VAR LastMonth = 
+    CALCULATE(
+        [Avg Length of Stay],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Avg Length of Stay MoM Label = 
+VAR _variance = [Avg Length of Stay vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "0.00")
+    )
+
+Avg Length of Stay Label Color = 
+IF([Avg Length of Stay vs Last Month] = 0, "Black",
+    IF([Avg Length of Stay vs Last Month] < 0, "Green", "Red"))
+
+===== AVG BURNOUT INDEX =====
+
+Avg Burnout Index = AVERAGE(Fact_Staffing[Burnout_Index])
+
+Avg Burnout Index vs Last Month = 
+VAR CurrentMonth = [Avg Burnout Index]
+VAR LastMonth = 
+    CALCULATE(
+        [Avg Burnout Index],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+Avg Burnout Index MoM Label = 
+VAR _variance = [Avg Burnout Index vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "0.00")
+    )
+
+Avg Burnout Index Label Color = 
+IF([Avg Burnout Index vs Last Month] = 0, "Black",
+    IF([Avg Burnout Index vs Last Month] < 0, "Green", "Red"))
+
+===== 30-DAY READMISSION RATE =====
+
+30-Day Readmission Rate = DIVIDE(CALCULATE(COUNTROWS(Fact_Patient_Visits), Fact_Patient_Visits[Readmission_30_Days_Flag] = TRUE()), COUNTA(Fact_Patient_Visits[Visit_ID]), 0) * 100
+
+30-Day Readmission Rate vs Last Month = 
+VAR CurrentMonth = [30-Day Readmission Rate]
+VAR LastMonth = 
+    CALCULATE(
+        [30-Day Readmission Rate],
+        DATEADD('Dim_Date'[Full_Date], -1, MONTH)
+    )
+RETURN
+    IF(
+        ISBLANK(LastMonth), 
+        BLANK(), 
+        CurrentMonth - LastMonth
+    )
+
+30-Day Readmission Rate MoM Label = 
+VAR _variance = [30-Day Readmission Rate vs Last Month]
+RETURN
+    IF(
+        ISBLANK(_variance),
+        "vs Previous Month: --",
+        VAR Icon = IF(_variance >= 0, "▲", "▼")
+        RETURN
+        "vs Previous Month: " & Icon & " " & FORMAT(ABS(_variance), "0.00%")
+    )
+
+30-Day Readmission Rate Label Color = 
+IF([30-Day Readmission Rate vs Last Month] = 0, "Black",
+    IF([30-Day Readmission Rate vs Last Month] < 0, "Green", "Red"))
+
+===== ICU ADMISSIONS =====
+
+ICU Admissions = CALCULATE(COUNTROWS(Fact_Patient_Visits), Fact_Patient_Visits[ICU_Required_Flag] = TRUE())
+
+===== FUNNEL CHART =====
+
+Admitted = COUNTROWS(Fact_Patient_Visits)
+
+Discharged = 
+CALCULATE(
+    COUNTROWS(Fact_Patient_Visits),
+    NOT ISBLANK(Fact_Patient_Visits[Triage_DateTime]),
+    NOT ISBLANK(Fact_Patient_Visits[Treatment_Start_DateTime]),
+    NOT ISBLANK(Fact_Patient_Visits[Discharge_DateTime])
+)
+
+Treatment Started = 
+CALCULATE(
+    COUNTROWS(Fact_Patient_Visits),
+    NOT ISBLANK(Fact_Patient_Visits[Triage_DateTime]),
+    NOT ISBLANK(Fact_Patient_Visits[Treatment_Start_DateTime])
+)
+
+Triaged = 
+CALCULATE(
+    COUNTROWS(Fact_Patient_Visits),
+    NOT ISBLANK(Fact_Patient_Visits[Triage_DateTime])
+)
+
+===== TITLES =====
+
+Page Title = "Emergency Operations & Patient Flow Analytics For " & SELECTEDVALUE(Dim_Date[Month_Name]) & " " & SELECTEDVALUE(Dim_Date[Year])
+
+Doctors Table = "Doctors Inteligence Table For " & SELECTEDVALUE(Dim_Date[Month_Name]) & " " & SELECTEDVALUE(Dim_Date[Year])
+
+Hospital Table = "Hospital Performance Intelligence Table For " & SELECTEDVALUE(Dim_Date[Month_Name]) & " " & SELECTEDVALUE(Dim_Date[Year])
+
+
